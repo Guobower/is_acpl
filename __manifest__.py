@@ -24,6 +24,7 @@ InfoSaône - Module Odoo pour ACPL
 ],
     'data' : [
         'views/report_invoice.xml',
+        'report/sale_report_templates.xml',
     ],
     'installable': True,
     'application': True,
