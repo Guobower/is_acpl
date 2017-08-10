@@ -198,7 +198,12 @@
             </div>
 
 
+            <t t-call="is_acpl.conditions_generales_de_vente" />
 
+
+
+
+<!--
 
 <div style="page-break-before:always"/>
 <div>
@@ -291,7 +296,7 @@ Le client dispose d'un droit d'accès à ces informations et de rectification da
 
 
 </div>
-
+-->
 
         </div>
 
@@ -317,7 +322,7 @@ Le client dispose d'un droit d'accès à ces informations et de rectification da
                 <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/> - <span t-field="o.company_id.country_id.name"/>
             </div>
             <div class="col-xs-6 text-right emetteur">
-                SARL au Capital de 75000€<br />
+                SAS au Capital de 24000€<br />
                 <t t-if="o.company_id.siret">Siret : <span t-field="o.company_id.siret"/><br /></t>
                 <t t-if="o.company_id.ape">APE : <span t-field="o.company_id.ape"/><br /></t>
                 <t t-if="o.company_id.company_registry">RCS : <span t-field="o.company_id.company_registry"/><br /></t>

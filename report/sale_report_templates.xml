@@ -2,7 +2,6 @@
 <odoo>
 
 
-
 <template id="is_report_saleorder_document" name="is_report_saleorder_document" inherit_id="sale.report_saleorder_document">
     <xpath expr="//div[@class='page']" position="replace">
         <div class="page">
@@ -45,12 +44,8 @@
                     <strong t-if="doc.state in ['draft','sent']">Date : </strong>
                     <p t-field="doc.date_order"/>
                 </div>
-                <div t-if="doc.user_id.name" class="col-xs-3">
-                    <strong>Vendeur : </strong>
-                    <p t-field="doc.user_id"/>
-                </div>
                 <div name="payment_term" t-if="doc.payment_term_id" class="col-xs-3">
-                    <strong>Mode de paiement:</strong>
+                    <strong>Conditions de paiement:</strong>
                     <p t-field="doc.payment_term_id"/>
                 </div>
             </div>
@@ -163,6 +158,15 @@
             <p t-if="doc.payment_term_id.note">
                 <span t-field="doc.payment_term_id.note"/>
             </p>
+
+            <p t-if="doc.is_lieu_intervention">
+                <strong>Lieu d'intervention : </strong><span t-field="doc.is_lieu_intervention"/>
+            </p>
+
+
+
+            <p>Devis gratuit valable 30 jours.</p>
+            <p>Pour accepter ce devis, ajouter la mention 'Devis reçu avant l'éxécution des travaux, bon pour travaux', la date et votre signature.</p>
             <!--
             <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.note">
                 <strong>Fiscal Position Remark:</strong>
@@ -170,6 +174,10 @@
             </p>
             -->
             <div class="oe_structure"/>
+
+
+            <t t-call="is_acpl.conditions_generales_de_vente" />
+
         </div>
     </xpath>
 </template>
