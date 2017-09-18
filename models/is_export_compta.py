@@ -36,6 +36,45 @@ class is_export_compta(models.Model):
 
 
     @api.multi
+    def action_envoi_mail(self):
+        body_html=u"""
+        <html>
+          <head>
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+          </head>
+          <body>
+            <font>Bonjour, </font>
+            <br><br>
+            <font>Ci-joint le fichier</font>
+          </body>
+        </html>
+        """
+        for obj in self:
+            user  = self.env['res.users'].browse(self._uid)
+            email = user.email
+            nom   = user.name
+            if email==False:
+                raise Warning(u"Votre mail n'est pas renseigné !")
+            if email:
+                attachment_id = self.env['ir.attachment'].search([
+                    ('res_model','=','is.export.compta'),
+                    ('res_id'   ,'=',obj.id),
+                    ('name'     ,'=','export-compta.txt')
+                ])
+                email_vals = {}
+                email_vals.update({
+                    'subject'       : 'Export compta Odoo',
+                    'email_to'      : email, 
+                    'email_from'    : email, 
+                    'body_html'     : body_html.encode('utf-8'), 
+                    'attachment_ids': [(6, 0, [attachment_id.id])] 
+                })
+                email_id=self.env['mail.mail'].create(email_vals)
+                if email_id:
+                    self.env['mail.mail'].send(email_id)
+
+
+    @api.multi
     def action_export_compta(self):
         cr=self._cr
         for obj in self:

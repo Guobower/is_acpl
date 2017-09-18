@@ -2,34 +2,13 @@
 <openerp>
     <data>
 
-
-        <!--
-        <record id="is_export_compta_type_seq" model="ir.sequence.type">
-            <field name="name">Folio Export Compta</field>
-            <field name="code">is.export.compta</field>
-        </record>
         <record id="is_export_compta_seq" model="ir.sequence">
             <field name="name">Folio Export Compta</field>
             <field name="code">is.export.compta</field>
             <field name="prefix">FOLIO-</field>
             <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-        -->
-
-
-        <record id="is_export_compta_seq" model="ir.sequence">
-            <field name="name">Folio Export Compta</field>
-            <field name="code">is.export.compta</field>
-            <field name="prefix">FOLIO-</field>
-            <field name="padding">4</field>
-            <!--
-            <field eval="1" name="number_next"/>
-            <field eval="1" name="number_increment"/>
-            -->
             <field eval="False" name="company_id"/>
         </record>
-
 
 
         <!-- Lignes -->
@@ -101,10 +80,6 @@
         </record>
 
 
-
-
-
-
         <record id="is_export_compta_tree" model="ir.ui.view">
             <field name="name">is.export.compta.tree</field>
             <field name="model">is.export.compta</field>
@@ -116,7 +91,6 @@
                     <field name="date_fin" />
                     <field name="num_debut" />
                     <field name="num_fin" />
-
                 </tree>
             </field>
         </record>
@@ -128,6 +102,7 @@
                     <header>
                         <button name="action_export_compta"              type="object" string="Générer les lignes"/>
                         <button name="%(is_export_compta_ligne_action)d" type="action" string="Voir les lignes"/>
+                        <button name="action_envoi_mail"                 type="object" string="Envoyer par mail"/>
                     </header>
                     <sheet>
                         <group>
@@ -197,7 +172,6 @@
             id="is_export_achat_compta_menu" 
             parent="account.menu_finance_payables" sequence="900"
         />
-
 
     </data>
 </openerp>
