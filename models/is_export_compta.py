@@ -164,7 +164,8 @@ class is_export_compta(models.Model):
                 else:
                     montant=row.debit  
                     sens='D'
-                montant=(u'000000000000'+str(int(round(100*montant))))[-12:]
+                #montant=(u'000000000000'+str(int(round(100*montant))))[-12:]
+                montant=(u'000000000000'+'%0.2f' % montant)[-12:]
                 date_facture=row.date_facture
                 date_facture=datetime.datetime.strptime(date_facture, '%Y-%m-%d')
                 date_facture=date_facture.strftime('%d%m%y')
