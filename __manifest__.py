@@ -27,6 +27,7 @@ InfoSaône - Module Odoo pour ACPL
         'views/assets.xml',
         'report/conditions_generales_de_vente_templates.xml',
         'report/sale_report_templates.xml',
+        'views/account_invoice_view.xml',
         'views/report_invoice.xml',
         'views/sale_view.xml',
         'views/partner_view.xml',
