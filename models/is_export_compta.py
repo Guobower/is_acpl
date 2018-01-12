@@ -136,6 +136,10 @@ class is_export_compta(models.Model):
                         'piece'             : row[2],
                         'commentaire'       : False,
                     }
+
+                    #print vals
+
+
                     self.env['is.export.compta.ligne'].create(vals)
             self.generer_fichier()
 
@@ -173,6 +177,10 @@ class is_export_compta(models.Model):
                 piece=(row.piece[-8:]+u'        ')[0:8]
 
                 Journal='70'
+
+                libelle=libelle.encode('iso8859')
+
+                #print libelle
 
                 f.write('M')
                 f.write((compte+u'00000000')[0:8])
