@@ -110,21 +110,24 @@ class is_export_compta(models.Model):
                         rp.name, 
                         ai.type, 
                         rp.is_code_client,
+                        ai.reference,
                         sum(aml.debit), 
                         sum(aml.credit)
-
                     FROM account_move_line aml inner join account_invoice ai             on aml.move_id=ai.move_id
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
                     WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier
+                    GROUP BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier,ai.reference
+                    ORDER BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier,ai.reference
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
                     compte=str(row[2])
                     if obj.type_interface=='ventes' and compte=='411100':
                         compte=str(row[6])
+                    piece=row[3]
+                    if obj.type_interface=='achats':
+                        piece=row[7]
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
@@ -132,10 +135,10 @@ class is_export_compta(models.Model):
                         'journal'           : journal,
                         'compte'            : compte,
                         'libelle'           : row[4],
-                        'debit'             : row[7],
-                        'credit'            : row[8],
+                        'debit'             : row[8],
+                        'credit'            : row[9],
                         'devise'            : 'E',
-                        'piece'             : row[3],
+                        'piece'             : piece,
                         'commentaire'       : False,
                     }
 
