@@ -104,6 +104,7 @@ class is_export_compta(models.Model):
                 sql="""
                     SELECT  
                         ai.date_invoice,
+                        ai.date_due,
                         aa.code, 
                         ai.number, 
                         rp.name, 
@@ -121,19 +122,20 @@ class is_export_compta(models.Model):
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
-                    compte=str(row[1])
+                    compte=str(row[2])
                     if obj.type_interface=='ventes' and compte=='411100':
-                        compte=str(row[5])
+                        compte=str(row[6])
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
+                        'date_echeance'     : row[1],
                         'journal'           : journal,
                         'compte'            : compte,
-                        'libelle'           : row[3],
-                        'debit'             : row[6],
-                        'credit'            : row[7],
+                        'libelle'           : row[4],
+                        'debit'             : row[7],
+                        'credit'            : row[8],
                         'devise'            : 'E',
-                        'piece'             : row[2],
+                        'piece'             : row[3],
                         'commentaire'       : False,
                     }
 
@@ -153,10 +155,9 @@ class is_export_compta(models.Model):
             name='export-compta.txt'
             dest     = '/tmp/'+name
             f = open(dest,'wb')
+            lig=0
             for row in obj.ligne_ids:
-
-
-
+                lig=lig+1
                 compte=str(row.compte)
                 if compte=='None':
                     compte=''
@@ -170,42 +171,66 @@ class is_export_compta(models.Model):
                     sens='D'
                 #montant=(u'000000000000'+str(int(round(100*montant))))[-12:]
                 montant=(u'000000000000'+'%0.2f' % montant)[-12:]
+
                 date_facture=row.date_facture
                 date_facture=datetime.datetime.strptime(date_facture, '%Y-%m-%d')
                 date_facture=date_facture.strftime('%d%m%y')
+
+                date_echeance=row.date_echeance
+                date_echeance=datetime.datetime.strptime(date_echeance, '%Y-%m-%d')
+                date_echeance=date_echeance.strftime('%d%m%y')
+
                 libelle=(row.libelle+u'                    ')[0:20]
                 piece=(row.piece[-8:]+u'        ')[0:8]
-
-                Journal='70'
-
+                journal='70'
                 libelle=libelle.encode('iso8859')
 
-                #print libelle
-
-                f.write('M')
-                f.write((compte+u'00000000')[0:8])
-                f.write(Journal)
-                f.write('000')
+                f.write(str(lig))
+                f.write(',')
                 f.write(date_facture)
-                f.write('F')
-                f.write(libelle)
-                f.write(sens)
-                f.write('+')
+                f.write(',')
+                f.write(journal)
+                f.write(',')
+                f.write(compte)
+                f.write(',')
+                #f.write('  ')
+                f.write(',')
+                f.write('"'+libelle+'"')
+                f.write(',')
+                f.write('"'+piece+'"')
+                f.write(',')
                 f.write(montant)
-                f.write('        ')
-                f.write('000000')
-                f.write('     ')
-                f.write(piece)
-                f.write('                 ')
-                f.write(piece)
-                f.write('EUR'+Journal+'    ')
-                f.write(libelle)
+                f.write(',')
+                f.write(sens)
+                f.write(',')
+                f.write(date_echeance)
+                f.write(',')
+                f.write('EUR')
                 f.write('\r\n')
 
-                #M01COHELIVE000030717 COHELIANCE          D+00000007200070610000000000                                      EURVE    COHELIANCE
-                #M70610000VE000030717 COHELIANCE          C+00000006000001COHELI000000                                      EURVE    COHELIANCE
-                #M44572000VE000030717 COHELIANCE          C+000000012000        000000                                      EURVE    COHELIANCE
-                #M01COHELIVE000300717 COHELIANCE          D+00000007200070610000000000     888                      888     EURVE    COHELIANCE                      888                                                    0000000663\WIN13072017082252
+
+
+
+#                f.write('M')
+#                f.write((compte+u'00000000')[0:8])
+#                f.write(Journal)
+#                f.write('000')
+#                f.write(date_facture)
+#                f.write('F')
+#                f.write(libelle)
+#                f.write(sens)
+#                f.write('+')
+#                f.write(montant)
+#                f.write('        ')
+#                f.write('000000')
+#                f.write('     ')
+#                f.write(piece)
+#                f.write('                 ')
+#                f.write(piece)
+#                f.write('EUR'+Journal+'    ')
+#                f.write(libelle)
+#                f.write('\r\n')
+
 
 
 
@@ -231,6 +256,7 @@ class is_export_compta_ligne(models.Model):
 
     export_compta_id = fields.Many2one('is.export.compta', 'Export Compta', required=True)
     date_facture     = fields.Date("Date")
+    date_echeance    = fields.Date("Date échéance")
     journal          = fields.Char("Journal")
     compte           = fields.Char("N°Compte")
     piece            = fields.Char("Pièce")
@@ -239,7 +265,6 @@ class is_export_compta_ligne(models.Model):
     credit           = fields.Float("Crédit")
     devise           = fields.Char("Devise")
     commentaire      = fields.Char("Commentaire")
-
 
     _defaults = {
         'journal': 'VTE',
