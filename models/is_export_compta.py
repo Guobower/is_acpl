@@ -182,7 +182,7 @@ class is_export_compta(models.Model):
 
                 libelle=(row.libelle+u'                    ')[0:20]
                 piece=(row.piece[-8:]+u'        ')[0:8]
-                journal='70'
+                journal=row.journal
                 libelle=libelle.encode('iso8859')
 
                 f.write(str(lig))
