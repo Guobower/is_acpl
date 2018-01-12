@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='number']" position="replace" >
                     <field name="move_name" string="Numéro"/> 
+                    <field name="is_type_facture"/>
                 </xpath>
             </field>
         </record>
@@ -22,6 +23,7 @@
             <field name="arch" type="xml">
                 <field name="date_invoice" position="after">
                     <field name="is_date_intervention"/>
+                    <field name="is_type_facture"/>
                 </field>
             </field>
         </record>

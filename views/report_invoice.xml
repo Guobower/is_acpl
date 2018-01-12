@@ -192,13 +192,18 @@
                 </div>
             </div>
             <p t-if="o.comment">
-                <strong>Comentaire:</strong>
+                <strong>Commentaire:</strong>
                 <span t-field="o.comment"/>
             </p>
             <div style="font-size:70%">
                 Escompte pour réglement anticipé : 0%<br />
                 En cas de retard de paiement seront exigibles : une pénalité égale à 3 fois le taux d'intéret légal (décret 2009-138 du 9 février 2009),
                 et une indemnité forfaitaire pour frais de recouvrement : 40 Euros (article 441-6 du Code du Commerce).              
+            </div>
+            <div class="row"  t-if="o.is_type_facture=='controle-numerique'">
+                <div class="col-xs-12 titre text-center">
+                    Intervention numérique réalisée sous couvert de l’agrément N°12.24.271.064.1<br />du Réseau RLC Lyon (RLC@lliance)
+                </div>
             </div>
             <t t-call="is_acpl.conditions_generales_de_vente" />
         </div>
