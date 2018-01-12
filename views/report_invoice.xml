@@ -51,7 +51,7 @@
 
             </style>
             <div class="row">&#160;</div>
-            <div class="row" style="margin-top:10mm;margin-bottom:10mm">
+            <div class="row" style="margin-top:13mm;margin-bottom:10mm">
                 <div class="col-xs-7 titre">
                     <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Facture</span>
                     <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
@@ -61,6 +61,11 @@
                     <span t-if="o.type == 'in_refund'">Avoir fournisseur</span>
                     <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
                     <span t-field="o.number"/> du <span t-field="o.date_invoice"/>
+                    <br />
+                    <br />
+                    <div class="info">
+                        <span t-if="o.type == 'out_invoice'">Date(s) d'intervention(s) : <span t-field="o.is_date_intervention"/></span>
+                    </div>
                 </div>
                 <div name="invoice_address" class="col-xs-5 destinataire">
                     <t t-if="o.partner_id.name"><span t-field="o.partner_id.name"/><br /></t>
