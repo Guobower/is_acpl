@@ -17,6 +17,7 @@ class AccountInvoice(models.Model):
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
+    _order = "invoice_id,id"
 
     is_num_controle = fields.Char(string="N° du contrôle")
 
