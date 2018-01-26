@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <field name="categ_id" position="after">
                 <field name="is_entrepot"/>
+                <field name="is_agrement_rlc"/>
             </field>
         </field>
     </record>
@@ -20,6 +21,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="is_entrepot"/>
+                <field name="is_agrement_rlc"/>
             </field>
         </field>
     </record>
