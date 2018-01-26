@@ -11,6 +11,10 @@
                     <field name="move_name" string="Numéro"/> 
                     <field name="is_type_facture"/>
                 </xpath>
+                <field name="amount_total_signed" position="replace"> 
+                    <field name="amount_untaxed"      sum="Total"/>
+                    <field name="amount_total_signed" sum="Total" string="Montant TTC"/>
+                </field>
             </field>
         </record>
 
