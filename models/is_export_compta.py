@@ -255,7 +255,7 @@ class is_export_compta(models.Model):
 class is_export_compta_ligne(models.Model):
     _name = 'is.export.compta.ligne'
     _description = u"Lignes d'export en compta"
-    _order='date_facture'
+    _order='date_facture,id'
 
     export_compta_id = fields.Many2one('is.export.compta', 'Export Compta', required=True)
     date_facture     = fields.Date("Date")
