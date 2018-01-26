@@ -11,3 +11,13 @@ class AccountInvoice(models.Model):
         ('controle-analogique', u'Contrôle analogique'),
         ('controle-numerique' , u'Contrôle numérique')
     ], "Type de facture", required=True, default='atelier')
+
+
+
+
+class AccountInvoiceLine(models.Model):
+    _inherit = "account.invoice.line"
+
+    is_num_controle = fields.Char(string="N° du contrôle")
+
+

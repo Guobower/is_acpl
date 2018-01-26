@@ -12,6 +12,7 @@
             </xpath>
             <field name="partner_id" position="after">
                 <field name="is_lieu_intervention"/>
+                <field name="is_date_intervention"/>
             </field>
         </field>
     </record>

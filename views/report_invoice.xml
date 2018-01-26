@@ -63,7 +63,7 @@
                     <span t-field="o.number"/> du <span t-field="o.date_invoice"/>
                     <br />
                     <br />
-                    <div class="info">
+                    <div t-if="o.is_type_facture=='atelier'" class="info">
                         <span t-if="o.type == 'out_invoice'">Date(s) d'intervention(s) : <span t-field="o.is_date_intervention"/></span>
                     </div>
                 </div>
@@ -77,7 +77,28 @@
                 </div>
             </div>
 
-            <div class="row info">
+
+            <table class="table table-condensed" style="margin-bottom:2mm">
+                <thead>
+                    <tr>
+                        <th class="text-left">Mode de paiement :</th>
+                        <th class="text-left">Mode de paiement :</th>
+                        <th class="text-left">Date d'échéance :</th>
+                        <th class="text-left">Compte client :</th>
+                        <th class="text-left">Reference :</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td class="text-left"><span t-field="o.payment_term_id.name"/></td>
+                    <td class="text-left"><span t-field="o.date_due"/></td>
+                    <td class="text-left"><span t-field="o.partner_id.property_account_receivable_id.code"/></td>
+                    <td class="text-left"><span t-field="o.reference"/></td>
+                </tbody>
+            </table>
+
+
+            <!--TODO : J'ai conservé et masqué ce bloc car utilisé par d'autres vues -->
+            <div class="row info" style="display:none">
                 <div class="col-xs-4" t-if="o.payment_term_id and o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
                     <strong>Mode de paiement :</strong>
                     <p t-field="o.payment_term_id.name"/>
@@ -91,10 +112,12 @@
                     <p t-field="o.partner_id.property_account_receivable_id.code"/>
                 </div>
                 <div name="reference" class="col-xs-2" t-if="o.reference and o.type == 'in_invoice'">
-                    <strong>Reference:</strong>
+                    <strong>Reference :</strong>
                     <p t-field="o.reference"/>
                 </div>
             </div>
+
+
 
             <!-- Is there a discount on at least one line? -->
             <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
@@ -103,6 +126,7 @@
                 <thead>
                     <tr>
                         <th>Description</th>
+                        <th t-if="o.is_type_facture!='atelier'" class="text-center">Date intervention</th>
                         <th class="hidden">Source Document</th>
                         <th class="text-right">Quantité</th>
                         <th class="text-right">Prix unitaire</th>
@@ -115,6 +139,14 @@
                     <tr t-foreach="o.invoice_line_ids" t-as="l">
                         <td>
                             <div t-field="l.name"/>
+                            <div t-if="o.is_type_facture!='atelier' and l.is_num_controle">
+                                N° du contrôle : <span t-field="l.is_num_controle"/>
+                            </div>
+                        </td>
+                        <td t-if="o.is_type_facture!='atelier'" class="text-center">
+                            <t t-foreach="l.sale_line_ids" t-as="l2">
+                                <span t-field="l2.order_id.is_date_intervention"/>
+                            </t>
                         </td>
                         <td class="hidden"><span t-field="l.origin"/></td>
                         <td class="text-right">
