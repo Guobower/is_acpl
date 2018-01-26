@@ -32,6 +32,7 @@ InfoSaône - Module Odoo pour ACPL
         'views/sale_view.xml',
         'views/partner_view.xml',
         'views/is_export_compta_view.xml',
+        'views/product_view.xml',
     ],
     'installable': True,
     'application': True,
