@@ -77,28 +77,24 @@
                 </div>
             </div>
 
-
+            <!--
             <table class="table table-condensed" style="margin-bottom:2mm">
-                <thead>
-                    <tr>
-                        <th class="text-left">Mode de paiement :</th>
-                        <th class="text-left">Mode de paiement :</th>
-                        <th class="text-left">Date d'échéance :</th>
-                        <th class="text-left">Compte client :</th>
-                        <th class="text-left">Reference :</th>
-                    </tr>
-                </thead>
                 <tbody>
-                    <td class="text-left"><span t-field="o.payment_term_id.name"/></td>
-                    <td class="text-left"><span t-field="o.date_due"/></td>
-                    <td class="text-left"><span t-field="o.partner_id.property_account_receivable_id.code"/></td>
-                    <td class="text-left"><span t-field="o.reference"/></td>
+                    <tr>
+                        <td class="text-left">Mode de paiement :</td>
+                        <td class="text-left">Date d'échéance :</td>
+                        <td class="text-left">Compte client :</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"><b><span t-field="o.payment_term_id.name"/></b></td>
+                        <td class="text-left"><b><span t-field="o.date_due"/></b></td>
+                        <td class="text-left"><b><span t-field="o.partner_id.property_account_receivable_id.code"/></b></td>
+                    </tr>
                 </tbody>
             </table>
+            -->
 
-
-            <!--TODO : J'ai conservé et masqué ce bloc car utilisé par d'autres vues -->
-            <div class="row info" style="display:none">
+            <div class="row info">
                 <div class="col-xs-4" t-if="o.payment_term_id and o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
                     <strong>Mode de paiement :</strong>
                     <p t-field="o.payment_term_id.name"/>
