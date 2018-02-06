@@ -116,7 +116,7 @@ class is_export_compta(models.Model):
                     FROM account_move_line aml inner join account_invoice ai             on aml.move_id=ai.move_id
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
-                    WHERE ai.id="""+str(invoice.id)+"""
+                    WHERE ai.id="""+str(invoice.id)+""" 
                     GROUP BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier,ai.reference
                     ORDER BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type,rp.is_code_client, ai.date_due, rp.supplier,ai.reference
                 """
@@ -128,23 +128,20 @@ class is_export_compta(models.Model):
                     piece=row[3]
                     if obj.type_interface=='achats':
                         piece=row[7]
-                    vals={
-                        'export_compta_id'  : obj.id,
-                        'date_facture'      : row[0],
-                        'date_echeance'     : row[1],
-                        'journal'           : journal,
-                        'compte'            : compte,
-                        'libelle'           : row[4],
-                        'debit'             : row[8],
-                        'credit'            : row[9],
-                        'devise'            : 'E',
-                        'piece'             : piece,
-                        'commentaire'       : False,
-                    }
-
-                    #print vals
-
-
+                    if row[8]!=0.0 or row[9]!=0.0:
+                        vals={
+                            'export_compta_id'  : obj.id,
+                            'date_facture'      : row[0],
+                            'date_echeance'     : row[1],
+                            'journal'           : journal,
+                            'compte'            : compte,
+                            'libelle'           : row[4],
+                            'debit'             : row[8],
+                            'credit'            : row[9],
+                            'devise'            : 'E',
+                            'piece'             : piece,
+                            'commentaire'       : False,
+                        }
                     self.env['is.export.compta.ligne'].create(vals)
             self.generer_fichier()
 
