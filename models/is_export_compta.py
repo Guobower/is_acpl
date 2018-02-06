@@ -142,7 +142,7 @@ class is_export_compta(models.Model):
                             'piece'             : piece,
                             'commentaire'       : False,
                         }
-                    self.env['is.export.compta.ligne'].create(vals)
+                        self.env['is.export.compta.ligne'].create(vals)
             self.generer_fichier()
 
 
