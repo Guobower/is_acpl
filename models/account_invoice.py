@@ -9,7 +9,8 @@ class AccountInvoice(models.Model):
     is_type_facture      = fields.Selection([
         ('atelier', u'Atelier'),
         ('controle-analogique', u'Contrôle analogique'),
-        ('controle-numerique' , u'Contrôle numérique')
+        ('controle-numerique' , u'Contrôle numérique'),
+        ('divers', u'Divers'),
     ], "Type de facture", required=True, default='atelier')
 
 
